@@ -1,0 +1,350 @@
+openapi: 3.0.0
+info:
+  title: Sensoteq DVD Rental
+  version: '1.0'
+  description: |-
+    Sensoteq DVD Rental with below features
+
+    1. Get movies list by category
+    2. Get movies list by title and length of title
+    3. Add customer with address
+    4. Delete customer due to GDPR
+  contact:
+    name: Sandeep Vemula
+    url: localhost
+    email: email@email.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://localhost:3000
+paths:
+  /filmsByCategory:
+    parameters: []
+    get:
+      summary: Get films by category
+      tags:
+        - films
+      responses:
+        '200':
+          description: Films list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilmsByCategoryResponse'
+                x-examples:
+                  Example 1:
+                    - film_id: 19
+                      title: Amadeus Holy
+                      description: A Emotional Display of a Pioneer And a Technical Writer who must Battle a Man in A Baloon
+                      rental_rate: 0.99
+                    - film_id: 21
+                      title: American Circus
+                      description: A Insightful Drama of a Girl And a Astronaut who must Face a Database Administrator in A Shark Tank
+                      rental_rate: 4.99
+              examples:
+                example-1:
+                  value:
+                    - film_id: 19
+                      title: Amadeus Holy
+                      description: A Emotional Display of a Pioneer And a Technical Writer who must Battle a Man in A Baloon
+                      rental_rate: 0.99
+                    - film_id: 21
+                      title: American Circus
+                      description: A Insightful Drama of a Girl And a Astronaut who must Face a Database Administrator in A Shark Tank
+                      rental_rate: 4.99
+        '418':
+          description: Error getting films list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                example-1:
+                  value:
+                    code: S100
+                    message: Error getting films list
+      operationId: get-filmsByCategory
+      description: Lists films by category name
+      parameters:
+        - schema:
+            type: string
+            example: Action
+          in: query
+          name: category_name
+          description: Category name
+          required: true
+  /addCustomer:
+    post:
+      summary: Add new customer
+      operationId: post-addCustomer
+      tags:
+        - customer
+      responses:
+        '200':
+          description: Customer successfully added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddCustomerResponse'
+                x-examples:
+                  Example 1:
+                    message: Customer added!!
+              examples:
+                Success:
+                  value:
+                    message: Customer added!!
+        '418':
+          description: Error adding customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCustomerRequest'
+              x-examples:
+                Example 1:
+                  store_id: 1
+                  first_name: Alice
+                  last_name: Smith
+                  email: alice.smith@example.com
+                  phone: '9384930239'
+                  address: house 1
+                  address2: street 1
+                  district: district 1
+                  city_id: 1
+                  postal_code: '93848'
+            examples:
+              new-customer:
+                value:
+                  store_id: 1
+                  first_name: Alice
+                  last_name: Smith
+                  email: alice.smith@example.com
+                  phone: '9384930239'
+                  address: house 1
+                  address2: street 1
+                  district: district 1
+                  city_id: 1
+                  postal_code: '93848'
+        description: Required fields for customer creation
+      description: Add a new customer
+    parameters: []
+  /deleteCustomer:
+    post:
+      summary: Delete customer
+      operationId: post-deleteCustomer
+      tags:
+        - customer
+      responses:
+        '200':
+          description: Customer deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCustomerResponse'
+              examples:
+                example-1:
+                  value:
+                    message: Customer deleted successfully
+        '418':
+          description: Error deleting customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      description: Delete customer due to GDPR
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCustomerRequest'
+            examples:
+              example-1:
+                value:
+                  customer_id: 10
+        description: 'customer id '
+  /filmsByTitle:
+    get:
+      summary: Get films by title
+      tags:
+        - films
+      responses:
+        '200':
+          description: Films list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilmsByTitleResponse'
+              examples:
+                example-1:
+                  value:
+                    - film_id: 97
+                      title: Bride Intrigue
+                      description: A Epic Tale of a Robot And a Monkey who must Vanquish a Man in New Orleans
+                      category: Adventure
+                      language: English
+                    - film_id: 111
+                      title: Caddyshack Jedi
+                      description: A Awe-Inspiring Epistle of a Woman And a Madman who must Fight a Robot in Soviet Georgia
+                      category: Adventure
+                      language: English
+        '418':
+          description: Error getting films list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                example-1:
+                  value:
+                    code: S100
+                    message: Error getting films list
+      operationId: get-filmsByTitle
+      description: Get flims list by title and length of title
+      parameters:
+        - schema:
+            type: string
+            example: John Wick
+          in: query
+          name: title
+          description: 'film title '
+        - schema:
+            type: integer
+            example: 40
+          in: query
+          name: length
+          description: length of title
+components:
+  schemas:
+    FilmsByCategoryResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          film_id:
+            type: integer
+          title:
+            type: string
+          description:
+            type: string
+          rental_rate:
+            type: number
+      x-examples:
+        Example 1:
+          - film_id: 19
+            title: Amadeus Holy
+            description: A Emotional Display of a Pioneer And a Technical Writer who must Battle a Man in A Baloon
+            rental_rate: 0.99
+          - film_id: 21
+            title: American Circus
+            description: A Insightful Drama of a Girl And a Astronaut who must Face a Database Administrator in A Shark Tank
+            rental_rate: 4.99
+
+    AddCustomerRequest:
+      type: object
+      properties:
+        store_id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        address2:
+          type: string
+        district:
+          type: string
+        city_id:
+          type: integer
+        postal_code:
+          type: string
+      x-examples:
+        Example 1:
+          store_id: 1
+          first_name: Alice
+          last_name: Smith
+          email: alice.smith@example.com
+          phone: '9384930239'
+          address: house 1
+          address2: street 1
+          district: district 1
+          city_id: 1
+          postal_code: '93848'
+
+    AddCustomerResponse:
+      title: AddCustomerResponse
+      x-stoplight:
+        id: rqjx2rib68tih
+      type: object
+      properties:
+        message:
+          type: string
+
+    DeleteCustomerRequest:
+      title: DeleteCustomerRequest
+      x-stoplight:
+        id: 3w2re94m94fvx
+      type: object
+      properties:
+        customer_id:
+          type: integer
+
+    DeleteCustomerResponse:
+      title: DeleteCustomerResponse
+      x-stoplight:
+        id: 0c96xyhajc07m
+      type: object
+      properties:
+        message:
+          type: string
+
+    ErrorResponse:
+      title: ErrorResponse
+      x-stoplight:
+        id: dla11wtm07wjm
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+
+    FilmsByTitleResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          film_id:
+            type: integer
+          title:
+            type: string
+          description:
+            type: string
+          category:
+            type: string
+          language:
+            type: string
+      x-examples:
+        Example 1:
+          - film_id: 0
+            title: string
+            description: string
+            category: string
+            language: string
+
+  requestBodies: {}
+tags:
+  - name: films
+    description: Films service
+  - name: customer
+    description: Customer service
+

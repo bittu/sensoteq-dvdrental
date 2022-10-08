@@ -12,7 +12,7 @@ info:
   contact:
     name: Sandeep Vemula
     url: localhost
-    email: email@email.com
+    email: vsandeep414@gmail.com
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -218,6 +218,84 @@ paths:
           in: query
           name: length
           description: length of title
+  /categories:
+    get:
+      summary: Get categories
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoriesResponse'
+              examples:
+                example-1:
+                  value:
+                    - category_id: 1
+                      name: Action
+                    - category_id: 2
+                      name: Animation
+      operationId: get-categories
+      description: Gets list of categories
+  /stores:
+    get:
+      summary: Get stores
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StoresResponse'
+              examples:
+                example-1:
+                  value:
+                    - store_id: 1
+                    - store_id: 2
+      operationId: get-stores
+      description: Get list of stores present
+  /cities:
+    get:
+      summary: Get cities
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitiesResponse'
+              examples:
+                example-1:
+                  value:
+                    - city_id: 1
+                      city: A Corua (La Corua)
+                    - city_id: 2
+                      city: Abha
+      operationId: get-cities
+      description: Gets list of cities
+  /customers:
+    get:
+      summary: Get customers
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomersResponse'
+              examples:
+                example-1:
+                  value:
+                    - customer_id: 1
+                      name: Mary Smith
+                    - customer_id: 2
+                      name: Patricia Johnson
+      operationId: get-customers
+      description: Gets list of customers
 components:
   schemas:
     FilmsByCategoryResponse:
@@ -341,10 +419,59 @@ components:
             category: string
             language: string
 
+    CategoriesResponse:
+      title: CategoriesResponse
+      x-stoplight:
+        id: oqgrjm3jb61ws
+      type: array
+      items:
+        type: object
+        properties:
+          category_id:
+            type: integer
+          name:
+            type: string
+
+    StoresResponse:
+      title: StoresResponse
+      x-stoplight:
+        id: gjmphspgk8ey6
+      type: array
+      items:
+        type: object
+        properties:
+          store_id:
+            type: integer
+
+    CitiesResponse:
+      title: CitiesResponse
+      x-stoplight:
+        id: qoixbzrgl67dj
+      type: array
+      items:
+        type: object
+        properties:
+          city_id:
+            type: integer
+          city:
+            type: string
+
+    CustomersResponse:
+      title: CustomersResponse
+      x-stoplight:
+        id: zly5njm9ze0qr
+      type: array
+
+      items:
+        type: object
+        properties:
+          customer_id:
+            type: integer
+          name:
+            type: string
   requestBodies: {}
 tags:
   - name: films
     description: Films service
   - name: customer
     description: Customer service
-

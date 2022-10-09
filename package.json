@@ -7,8 +7,10 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "concurrently -k -p [{name}] -n client,server,Proxy -c magenta,cyan,blue \"cd client && npm start\" \"cd server && npm start\" \"node serve.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "install:server": "cd server && npm install",
+    "install:client": "cd client && npm install",
+    "postinstall": "concurrently \"npm:install:*\"",
+    "start": "concurrently -k -p [{name}] -n client,server,Proxy -c magenta,cyan,blue \"cd client && npm start\" \"cd server && npm start\" \"node serve.js\""
   },
   "repository": {
     "type": "git",

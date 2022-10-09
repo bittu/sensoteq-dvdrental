@@ -19,7 +19,7 @@ info:
 servers:
   - url: http://localhost:3000
 paths:
-  /filmsByCategory:
+  /v1/filmsByCategory:
     parameters: []
     get:
       summary: Get films by category
@@ -74,7 +74,7 @@ paths:
           name: category_name
           description: Category name
           required: true
-  /addCustomer:
+  /v1/addCustomer:
     post:
       summary: Add new customer
       operationId: post-addCustomer
@@ -133,7 +133,7 @@ paths:
         description: Required fields for customer creation
       description: Add a new customer
     parameters: []
-  /deleteCustomer:
+  /v1/deleteCustomer:
     post:
       summary: Delete customer
       operationId: post-deleteCustomer
@@ -167,7 +167,7 @@ paths:
                 value:
                   customer_id: 10
         description: 'customer id '
-  /filmsByTitle:
+  /v1/filmsByTitle:
     get:
       summary: Get films by title
       tags:
@@ -218,7 +218,7 @@ paths:
           in: query
           name: length
           description: length of title
-  /categories:
+  /v1/categories:
     get:
       summary: Get categories
       tags: []
@@ -238,7 +238,7 @@ paths:
                       name: Animation
       operationId: get-categories
       description: Gets list of categories
-  /stores:
+  /v1/stores:
     get:
       summary: Get stores
       tags: []
@@ -256,7 +256,7 @@ paths:
                     - store_id: 2
       operationId: get-stores
       description: Get list of stores present
-  /cities:
+  /v1/cities:
     get:
       summary: Get cities
       tags: []
@@ -276,7 +276,7 @@ paths:
                       city: Abha
       operationId: get-cities
       description: Gets list of cities
-  /customers:
+  /v1/customers:
     get:
       summary: Get customers
       tags: []

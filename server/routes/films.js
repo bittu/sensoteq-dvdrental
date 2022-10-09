@@ -49,7 +49,14 @@ const getFilmsByTitle = async (req, res) => {
   }
 
   try {
-    let query = 'SELECT * FROM film WHERE 1=1';
+    let query = `SELECT f.film_id, f.title, f.description, f.rental_rate, c.name category, TRIM(l.name) language FROM film AS f
+    INNER JOIN film_category AS fc
+      ON f.film_id=fc.film_id
+    INNER JOIN category AS c
+      ON fc.category_id = c.category_id
+    INNER JOIN language AS l
+      ON f.language_id = l.language_id
+    WHERE 1=1 `;
 
     if (title) {
       query += `AND title ILIKE '${title}%'`;

@@ -13,7 +13,7 @@ app.use(
   })
 )
 
-app.use(router);
+app.use('/v1', router);
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
